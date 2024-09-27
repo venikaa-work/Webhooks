@@ -8,14 +8,11 @@ from ipaddress import ip_address, ip_network
 from django.utils.encoding import force_bytes
 from django.conf import settings
 
-
 @csrf_exempt
 def hello(request):
     forwarded_for = u'{}'.format(request.META.get('HTTP_X_FORWARDED_FOR'))
     client_ip_address = ip_address(forwarded_for)
     whitelist = requests.get('http://api.github.com/meta').json()['hooks']
-
-
 
     for valid_ip in whitelist:
         if client_ip_address in ip_network(valid_ip):
@@ -40,3 +37,5 @@ def hello(request):
     elif event == 'push':
         return HttpResponse('success')
     return HttpResponse(status=204)
+
+#views.py views have been created, this is a test run
